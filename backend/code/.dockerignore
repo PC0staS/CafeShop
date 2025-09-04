@@ -1,0 +1,8 @@
+# ignore virtualenv and editor files to avoid triggering watch reloads
+.venv
+__pycache__
+*.pyc
+.vscode
+.idea
+.env
+backend/code/.venv

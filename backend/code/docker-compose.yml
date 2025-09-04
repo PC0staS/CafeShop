@@ -5,11 +5,11 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: discord_clone_db
+      MYSQL_DATABASE: cafeshop_db
     ports:
       - "3306:3306"
     volumes:
-      - discord_db_data:/var/lib/mysql
+      - cafeshop_db_data:/var/lib/mysql
 
 
   app:
@@ -24,4 +24,4 @@ services:
           - db
 
 volumes:
-  discord_db_data:
+  cafeshop_db_data:
