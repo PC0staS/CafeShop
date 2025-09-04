@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mysql:8.0  # Es buena práctica fijar una versión
+    container_name: discord_mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: discord_clone_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - discord_db_data:/var/lib/mysql
+
+
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - ".env"
+    depends_on:
+          - db
+
+volumes:
+  discord_db_data:
