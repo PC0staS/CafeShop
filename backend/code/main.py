@@ -1,10 +1,12 @@
-from fastapi import FastAPI, Body
-
+from fastapi import FastAPI, Body, Request
 import models,schemas,crud,auth
 from database import SessionLocal, engine
 from typing import Optional
+import os
+import dotenv
 
-
+dotenv.load_dotenv()
+ADMIN_CREATION_SECRET = os.getenv("ADMIN_CREATION_SECRET")
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -32,6 +34,18 @@ def health_check():
 
 
 # Admin Auth Routes
+@app.post("/admin/auth/register", tags=["Admin Auth"])
+async def register_admin(request: Request, db=next(get_db())):
+    data = await request.json()
+    email = data.get("email")
+    password = data.get("password")
+    admin_secret = data.get("admin_secret")
+    if not email or not password:
+        return {"error": "Email y password son requeridos"}
+    if admin_secret != ADMIN_CREATION_SECRET:
+        return {"error": "No autorizado"}
+    admin = schemas.AdminCreate(email=email, password=password)
+    return auth.create_admin(db, admin)
 
 @app.post("/admin/auth/login", tags=["Admin Auth"])
 def admin_login (credentials: schemas.AdminLogin, db=next(get_db())):

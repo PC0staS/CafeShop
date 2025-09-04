@@ -10,8 +10,8 @@ from sqlalchemy.orm import Session
 
 dotenv.load_dotenv()
 
-JWT_SECRET = os.getenv("JWT_SECRET")
-REFRESH_SECRET = os.getenv("REFRESH_SECRET")
+JWT_SECRET = os.getenv("JWT_SECRET", "")
+REFRESH_SECRET = os.getenv("REFRESH_SECRET", "")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 REFRESH_TOKEN_EXPIRE_DAYS = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS", 7))
