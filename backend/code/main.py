@@ -25,18 +25,18 @@ def get_db():
     finally:
         db.close()
 
-@app.get("/health")
+@app.get("/health", tags=["Health Check"])
 def health_check():
     return {"status": "healthy"}
 
 
 # Admin Auth Routes
 
-@app.post("/admin/auth/login")
+@app.post("/admin/auth/login", tags=["Admin Auth"])
 def admin_login (credentials: schemas.AdminLogin, db=next(get_db())):
     return auth.auth_admin(credentials, db)
 
-@app.post("/admin/auth/refresh")
+@app.post("/admin/auth/refresh", tags=["Admin Auth"])
 def admin_refresh(refresh_token: str, db=next(get_db())):
     return auth.refresh_access_token(refresh_token)
 
