@@ -6,3 +6,4 @@ pymysql
 pyjwt
 passlib[bcrypt]
 cryptography
+requests
