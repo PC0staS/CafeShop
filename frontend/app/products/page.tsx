@@ -32,7 +32,7 @@ export default async function ProductsPage({ searchParams }: { searchParams?: { 
                 <Link
                   key={p.id}
                   className="group transition-all duration-300 border border-stone-200 bg-white hover:bg-stone-50 rounded-xl flex flex-col items-center p-5 w-full max-w-sm shadow-sm hover:shadow-md"
-                  href={`/products/${p.id}`}
+                  href={{ pathname: `/products/${p.id}`, query: { skip } }}
                 >
                   <Image
                     src={p.images[0].image_url}

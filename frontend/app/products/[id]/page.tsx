@@ -3,9 +3,10 @@ import { fetchProduct } from "@/app/lib/FetchProducts";
 import Image from "next/image";
 import Link from "next/link";
 
+
 export const revalidate = 60; // ISR: cada 60 segundos
 
-export default async function ProductPage({ params }: { params: { id: string } }) {
+export default async function ProductPage({ params, searchParams }: { params: { id: string }, searchParams?: { skip?: string } }) {
   const product = await fetchProduct(params.id);
 
   if (!product) {
@@ -24,11 +25,16 @@ export default async function ProductPage({ params }: { params: { id: string } }
   const imageUrl = mainImage?.image_url || "/coffee_image.png";
   const imageAlt = mainImage?.alt_text || product.name;
 
+  const fromSkip = Number(searchParams?.skip ?? "");
+  const backHref = Number.isFinite(fromSkip) && fromSkip > 0
+    ? { pathname: "/products", query: { skip: fromSkip } }
+    : "/products";
+
   return (
     <div className="min-h-screen bg-stone-50">
       <Navbar />
       <main className="container mx-auto px-4 py-10 pt-30">
-        <Link href="/products" className="text-sm text-stone-600 hover:text-stone-800">← Volver al catálogo</Link>
+        <Link href={backHref} className="text-sm text-stone-600 hover:text-stone-800">← Volver al catálogo</Link>
         <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           {/* Imagen principal */}
           <div className="bg-white border border-stone-200 rounded-xl p-2 shadow-sm">
