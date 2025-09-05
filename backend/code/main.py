@@ -75,14 +75,14 @@ def create_product_image(product_id: int, image: schemas.ProductImageCreate, db:
 @app.post("/admin/products/full", tags=["Admin Products"], response_model=schemas.Product)
 def create_product_with_images(
     product: schemas.ProductCreate = Body(...),
-    image_urls: list[str] = Body(default_factory=list),
+    images: list[schemas.ProductImageCreate] = Body(default_factory=list),
     db: Session = Depends(get_db)
     ):
     # 1. Crea el producto
     new_product = crud.create_product(db, product)
     # 2. Asocia las imágenes
-    for url in image_urls:
-        crud.create_product_image(db, schemas.ProductImageCreate(image_url=url, alt_text=None), new_product.id) # type: ignore
+    for img in images:
+        crud.create_product_image(db, img, new_product.id) # type: ignore
     return new_product
 
 @app.delete("/admin/products/{product_id}", tags=["Admin Products"], status_code=status.HTTP_204_NO_CONTENT)

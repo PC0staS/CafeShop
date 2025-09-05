@@ -45,6 +45,7 @@ if not access_token:
 headers = {"Authorization": f"Bearer {access_token}"}
 
 # 3. Añadir 30 productos de ejemplo
+
 image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/A_small_cup_of_coffee.JPG/1200px-A_small_cup_of_coffee.JPG"
 for i in range(30):
     product = {
@@ -54,15 +55,34 @@ for i in range(30):
         "currency": "EUR",
         "brand": "MarcaEjemplo",
         "origin": "Colombia",
-        # Debe coincidir con los valores del Enum en models: "Light", "Medium-Light", "Medium", "Medium-Dark", "Dark"
         "roast_level": "Medium",
     }
+    # Añade dos imágenes: una main y otra no main
+    image_payloads = [
+        {"image_url": image_url, "alt_text": None, "is_main": True},
+        {"image_url": image_url, "alt_text": None, "is_main": False},
+    ]
+    # Crea el producto
     resp = requests.post(
-        f"{API_URL}/admin/products/full",
-        json={"product": product, "image_urls": [image_url]},
+        f"{API_URL}/admin/products",
+        json=product,
         headers=headers,
     )
     print_json_or_text(f"Producto {i+1} creado:", resp)
+    try:
+        prod = resp.json()
+        prod_id = prod.get("id")
+    except Exception:
+        print(f"Error obteniendo id del producto {i+1}")
+        continue
+    # Añade las dos imágenes
+    for img in image_payloads:
+        resp_img = requests.post(
+            f"{API_URL}/admin/products/{prod_id}/images",
+            json=img,
+            headers=headers,
+        )
+        print_json_or_text(f"Imagen añadida a producto {i+1}:", resp_img)
 
 # 4. Crear uno más
 product = {

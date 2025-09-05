@@ -24,6 +24,7 @@ class Product(ProductBase):
 class ProductImageBase(BaseModel):
     image_url: str
     alt_text: str | None
+    is_main: bool | None
 
 class ProductImageCreate(ProductImageBase):
     pass
