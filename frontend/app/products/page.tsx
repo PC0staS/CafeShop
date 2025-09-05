@@ -39,7 +39,7 @@ export default async function ProductsPage({ searchParams }: { searchParams?: { 
                     alt={p.name}
                     width={320}
                     height={240}
-                    className="w-full object-cover rounded-lg mb-4 group-hover:brightness-95"
+                    className="w-full object-cover rounded-lg mb-4 group-hover:brightness-95 h-60 max-h-60"
                     style={{ viewTransitionName: `product-image-${p.id}` }}
                   />
                   <h2 className="text-xl md:text-2xl font-semibold text-stone-800 mb-1 text-center">{p.name}</h2>

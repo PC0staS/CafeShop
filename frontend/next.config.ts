@@ -5,7 +5,8 @@ const nextConfig: NextConfig = {
   images: {
     domains: [
       "upload.wikimedia.org",
-      "pub-xxxxxxxx.r2.dev", 
+      "pub-xxxxxxxx.r2.dev",
+      "images.unsplash.com"
     ],
   },
   experimental: {

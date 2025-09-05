@@ -44,82 +44,99 @@ if not access_token:
 
 headers = {"Authorization": f"Bearer {access_token}"}
 
-# 3. Añadir 30 productos de ejemplo
+# 3. Añadir 10 productos de ejemplo con datos reales y variados
+import random
+descriptions = [
+    "Café de especialidad con notas a chocolate y frutos secos. Cultivado en las montañas de Colombia a más de 1800 metros de altitud. Proceso lavado, cuerpo medio y acidez brillante. Ideal para espresso y métodos filtrados.",
+    "Granos seleccionados de Etiopía, región Yirgacheffe. Aroma floral intenso, sabor a cítricos y miel. Tueste medio claro para resaltar la complejidad de la taza. Perfecto para Chemex y V60.",
+    "Blend exclusivo de Brasil y Guatemala, con perfil dulce y baja acidez. Notas a nuez, caramelo y cacao. Recomendado para cafeteras automáticas y moka.",
+    "Café orgánico de Perú, cultivado por cooperativas locales. Sabor suave, con matices a frutas rojas y vainilla. Proceso natural, tueste medio oscuro.",
+    "Microlote de Costa Rica, variedad Geisha. Sabor exótico, cuerpo sedoso y acidez delicada. Notas a jazmín y bergamota. Edición limitada.",
+    "Café robusta de Vietnam, ideal para preparar café fuerte y con mucha crema. Sabor intenso y amargo, perfecto para mezclas y espresso italiano.",
+    "Granos de Honduras, tueste medio, perfil balanceado. Aroma a almendra y chocolate con leche. Proceso honey, recomendado para cold brew.",
+    "Café de Kenia AA, tueste claro, acidez viva y cuerpo jugoso. Sabor a grosella negra y cítricos. Ideal para métodos manuales.",
+    "Café de Sumatra, Indonesia. Proceso semi-lavado, sabor terroso y especiado, cuerpo alto. Perfecto para quienes buscan intensidad.",
+    "Café de México, región Chiapas. Orgánico, tueste medio, sabor suave y dulce, notas a panela y canela."
+]
+image_urls = [
+    "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+    "https://images.unsplash.com/photo-1465101046530-73398c7f28ca",
+    "https://images.unsplash.com/photo-1511920170033-f8396924c348",
+    "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a",
+    "https://images.unsplash.com/photo-1454023492550-5696f8ff10e1",
+    "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
+    "https://images.unsplash.com/photo-1469530464725-6085c2b7c1e6",
+    "https://images.unsplash.com/photo-1519125323398-675f0ddb6308",
+    "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac",
+    "https://images.unsplash.com/photo-1519864600265-abb23847ef2c"
+]
+brands = ["Café del Valle", "Yirga Beans", "Brasil Blend", "Perú Orgánico", "Geisha CR", "Vietnam Strong", "Honduras Honey", "Kenia AA", "Sumatra Spice", "Chiapas Sweet"]
+origins = ["Colombia", "Etiopía", "Brasil", "Perú", "Costa Rica", "Vietnam", "Honduras", "Kenia", "Indonesia", "México"]
+roast_levels = ["Medium", "Light", "Medium-Dark", "Dark", "Medium-Light", "Dark", "Medium", "Light", "Medium-Dark", "Medium"]
+currencies = ["EUR", "USD", "EUR", "USD", "EUR", "USD", "EUR", "USD", "EUR", "USD"]
 
-image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/A_small_cup_of_coffee.JPG/1200px-A_small_cup_of_coffee.JPG"
-for i in range(30):
+for i in range(40):
+    idx = i % 10
     product = {
-        "name": f"Cafe Ejemplo {i+1}",
-        "description": f"Descripción del producto {i+1}",
-        "price_per_kg": 10 + i,
-        "currency": "EUR",
-        "brand": "MarcaEjemplo",
-        "origin": "Colombia",
-        "roast_level": "Medium",
+        "name": brands[idx] + f" {i+1}",
+        "description": descriptions[idx] + f" Lote especial #{i+1} con calidad garantizada y perfil único.",
+        "price_per_kg": round(random.uniform(8, 40), 2),
+        "currency": currencies[idx],
+        "brand": brands[idx],
+        "origin": origins[idx],
+        "roast_level": roast_levels[idx],
     }
-    # Añade dos imágenes: una main y otra no main
     image_payloads = [
-        {"image_url": image_url, "alt_text": None, "is_main": True},
-        {"image_url": image_url, "alt_text": None, "is_main": False},
+        {"image_url": image_urls[idx], "alt_text": f"Foto principal de {brands[idx]} {i+1}", "is_main": True},
+        {"image_url": image_urls[(idx+1)%10], "alt_text": f"Otra foto de {brands[idx]} {i+1}", "is_main": False},
     ]
-    # Crea el producto
     resp = requests.post(
-        f"{API_URL}/admin/products",
-        json=product,
+        f"{API_URL}/admin/products/full",
+        json={"product": product, "images": image_payloads},
         headers=headers,
     )
     print_json_or_text(f"Producto {i+1} creado:", resp)
-    try:
-        prod = resp.json()
-        prod_id = prod.get("id")
-    except Exception:
-        print(f"Error obteniendo id del producto {i+1}")
-        continue
-    # Añade las dos imágenes
-    for img in image_payloads:
-        resp_img = requests.post(
-            f"{API_URL}/admin/products/{prod_id}/images",
-            json=img,
-            headers=headers,
-        )
-        print_json_or_text(f"Imagen añadida a producto {i+1}:", resp_img)
 
-# 4. Crear uno más
-product = {
-    "name": "Cafe Extra",
-    "description": "Producto extra para pruebas",
-    "price_per_kg": 99,
-    "currency": "EUR",
-    "brand": "MarcaExtra",
-    "origin": "Brasil",
-    "roast_level": "Dark",
+# 4. Crear uno más con datos reales y dos imágenes
+extra_product = {
+    "name": "Guatemala Antigua Reserve",
+    "description": "Café premium de la región Antigua, Guatemala. Sabor complejo con notas a cacao, frutas maduras y especias. Proceso lavado, tueste medio, cuerpo sedoso y acidez equilibrada. Ideal para espresso y métodos filtrados.",
+    "price_per_kg": 27.5,
+    "currency": "USD",
+    "brand": "Antigua Reserve",
+    "origin": "Guatemala",
+    "roast_level": "Medium",
 }
+extra_images = [
+    {"image_url": "https://images.unsplash.com/photo-1504674900247-0877df9cc836", "alt_text": "Foto principal Guatemala Antigua Reserve", "is_main": True},
+    {"image_url": "https://images.unsplash.com/photo-1519125323398-675f0ddb6308", "alt_text": "Otra foto Guatemala Antigua Reserve", "is_main": False},
+]
 resp = requests.post(
     f"{API_URL}/admin/products/full",
-    json={"product": product, "image_urls": [image_url]},
+    json={"product": extra_product, "images": extra_images},
     headers=headers,
 )
 try:
-    extra_product = resp.json()
+    extra_product_resp = resp.json()
 except Exception:
     print("Error creando producto extra:", f"status={resp.status_code}", "text=", resp.text)
     raise SystemExit(1)
 
-print("Producto extra creado:", extra_product)
-extra_id = extra_product.get("id")
+print("Producto extra creado:", extra_product_resp)
+extra_id = extra_product_resp.get("id")
 if not extra_id:
     print("No se obtuvo id del producto extra. Deteniendo.")
     raise SystemExit(1)
 
-# 5. Editar el producto extra
+# 5. Editar el producto extra con datos reales
 update = {
-    "name": "Cafe Extra Editado",
-    "description": "Descripción editada",
-    "price_per_kg": 88,
+    "name": "Guatemala Antigua Edición Especial",
+    "description": "Edición especial con tueste personalizado. Sabor aún más intenso, notas a chocolate negro y frutos rojos. Proceso lavado, cuerpo alto y acidez vibrante.",
+    "price_per_kg": 32.0,
     "currency": "USD",
-    "brand": "MarcaEditada",
-    "origin": "Perú",
-    "roast_level": "Light",
+    "brand": "Antigua Especial",
+    "origin": "Guatemala",
+    "roast_level": "Medium-Dark",
 }
 resp = requests.put(f"{API_URL}/admin/products/{extra_id}", json=update, headers=headers)
 print_json_or_text("Producto extra editado:", resp)
