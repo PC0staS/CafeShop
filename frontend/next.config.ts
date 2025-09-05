@@ -8,8 +8,8 @@ const nextConfig: NextConfig = {
       "pub-xxxxxxxx.r2.dev", 
     ],
   },
-  experimental:{
-    viewTransition: true
+  experimental: {
+    viewTransition: true,
   }
 };
 

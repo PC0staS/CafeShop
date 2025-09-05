@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { unstable_ViewTransition as ViewTransition } from 'react'
+import Footer from "./componentes/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,6 +20,7 @@ export default function RootLayout({
             className={`antialiased`}
         >
           {children}
+          <Footer />
         </body>
       </html>
     </ViewTransition>

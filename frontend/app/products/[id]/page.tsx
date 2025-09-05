@@ -39,7 +39,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
               height={700}
               className="w-full h-auto object-cover rounded-lg"
               priority
-              transition-name={`product-image-${product.id}`}
+              style={{ viewTransitionName: `product-image-${product.id}` }}
             />
           </div>
 

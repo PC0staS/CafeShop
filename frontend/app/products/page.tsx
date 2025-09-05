@@ -40,11 +40,11 @@ export default async function ProductsPage({ searchParams }: { searchParams?: { 
                     width={320}
                     height={240}
                     className="w-full object-cover rounded-lg mb-4 group-hover:brightness-95"
-                    transition-name={`product-image-${p.id}`}
+                    style={{ viewTransitionName: `product-image-${p.id}` }}
                   />
                   <h2 className="text-xl md:text-2xl font-semibold text-stone-800 mb-1 text-center">{p.name}</h2>
                   <span className="text-sm text-stone-600 text-center px-2 mb-2">{desc}</span>
-                  <p className="text-base font-medium text-[var(--coffee-brown)] mb-4">{p.price_per_kg} € / kg</p>
+                  <p className="text-base font-medium text-[var(--coffee-brown)] mb-4">{p.price_per_kg} {p.currency} / kg</p>
                   <span className="mt-auto">
                     <span className="inline-flex items-center px-5 py-2 rounded-md border border-stone-300 text-stone-700 bg-white hover:bg-stone-100 transition-colors">Ver más</span>
                   </span>
