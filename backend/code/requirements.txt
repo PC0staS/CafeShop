@@ -2,7 +2,7 @@ fastapi
 uvicorn
 sqlalchemy
 python-dotenv
-pymysql
+psycopg2-binary
 pyjwt
 passlib[bcrypt]
 cryptography
