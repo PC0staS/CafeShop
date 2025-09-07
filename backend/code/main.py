@@ -5,11 +5,14 @@ from database import engine, SessionLocal
 from typing import Optional
 import os
 import dotenv
+from fastapi.middleware.cors import CORSMiddleware
 
 dotenv.load_dotenv()
 ADMIN_CREATION_SECRET = os.getenv("ADMIN_CREATION_SECRET")
 
 models.Base.metadata.create_all(bind=engine)
+
+
 
 app = FastAPI(
     title="CafeShop API",
@@ -21,7 +24,13 @@ app = FastAPI(
         "url": "https://github.com/PC0staS"
     }
 )
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Puedes especificar los orígenes permitidos
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 def get_db():
     db = SessionLocal()
     try:

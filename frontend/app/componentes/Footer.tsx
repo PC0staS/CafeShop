@@ -17,7 +17,7 @@ export default function Footer() {
 					<ul className="space-y-2">
 						<li><a className="hover:text-stone-900" href="#">Contacto</a></li>
 						<li><a className="hover:text-stone-900" href="#">Privacidad</a></li>
-						<li><a className="hover:text-stone-900" href="#">Términos</a></li>
+						<li><a className="hover:text-stone-900" href="/admin">Eres un administrador?</a></li>
 					</ul>
 				</nav>
 				<div className="text-sm md:text-right">
