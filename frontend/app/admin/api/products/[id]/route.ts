@@ -48,13 +48,16 @@ async function forwardUpdate(method: "PUT" | "PATCH" | "DELETE", req: Request, i
   }
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
-  return forwardUpdate("PUT", req, params.id);
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return forwardUpdate("PUT", req, id);
 }
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
-  return forwardUpdate("PATCH", req, params.id);
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return forwardUpdate("PATCH", req, id);
 }
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-  return forwardUpdate("DELETE", req, params.id);
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return forwardUpdate("DELETE", req, id);
 }

@@ -36,10 +36,12 @@ async function forwardUpdate(method: "PUT" | "PATCH", req: Request, id: string) 
   }
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
-  return forwardUpdate("PUT", req, params.id);
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return forwardUpdate("PUT", req, id);
 }
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
-  return forwardUpdate("PATCH", req, params.id);
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return forwardUpdate("PATCH", req, id);
 }
