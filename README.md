@@ -1,23 +1,30 @@
 # ☕ CafeShop - Sistema de Gestión de Café
 
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![Python](https://img.shields.io/badge/Python-3.13+-blue.svg)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.116+-teal.svg)](https://fastapi.tiangolo.com)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-19-blue.svg)](https://reactjs.org)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://docker.com)
+
 Un sistema completo de gestión de productos de café desarrollado con tecnologías modernas de desarrollo web. Este proyecto incluye una API REST robusta, una interfaz de administración intuitiva y un frontend responsive para la presentación de productos.
 
-## 🚀 Características Principales
+## 🎥 Demo y Capturas
 
-### 🎯 Funcionalidades del Sistema
-- **Gestión completa de productos** - CRUD de productos de café con información detallada
-- **Sistema de imágenes** - Soporte para múltiples imágenes por producto
-- **Panel de administración** - Interfaz moderna para gestión de productos
-- **Autenticación JWT** - Sistema seguro de autenticación para administradores
-- **API REST completa** - Endpoints documentados para todas las operaciones
-- **Responsive Design** - Interfaz adaptable a todos los dispositivos
+### 🔧 Funcionalidades Principales
+- **💾 Gestión CRUD completa** - Crear, leer, actualizar y eliminar productos
+- **🖼️ Sistema de imágenes** - Subida y gestión de múltiples imágenes por producto
+- **👨‍💼 Panel de administración** - Dashboard moderno con autenticación JWT
+- **🔒 Seguridad robusta** - Autenticación, autorización y validación de datos
+- **📱 Diseño responsive** - Optimizado para dispositivos móviles y desktop
+- **🚀 Deploy con Docker** - Configuración completa con docker-compose
 
-### ☕ Características Específicas del Café
-- **Niveles de tueste** - Light, Medium-Light, Medium, Medium-Dark, Dark
-- **Información de origen** - País de origen del café
-- **Precios por kilogramo** - Sistema de precios flexible
-- **Gestión de marcas** - Organización por marcas de café
-- **Estados de producto** - Control de productos activos/inactivos
+### ☕ Características Específicas del Negocio
+- **🌱 Niveles de tueste** - Light, Medium-Light, Medium, Medium-Dark, Dark
+- **🌍 Origen geográfico** - Trazabilidad del país de origen
+- **💰 Sistema de precios** - Gestión flexible de precios por kilogramo
+- **🏷️ Organización por marcas** - Clasificación de productos por marca
+- **✅ Control de estado** - Activación/desactivación de productos
 
 ## 🛠️ Stack Tecnológico
 
@@ -39,6 +46,32 @@ Un sistema completo de gestión de productos de café desarrollado con tecnolog�
 ### Base de Datos
 - **PostgreSQL 16** - Base de datos principal
 - **Esquemas relacionales** - Productos, imágenes y administradores
+
+## ⚡ Inicio Rápido
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/PC0staS/CafeShop.git
+cd CafeShop
+
+# 2. Verificar prerrequisitos
+./setup-check.sh
+
+# 3. Configurar backend
+cd backend/code
+cp .env.example .env
+# Editar .env con tus configuraciones
+
+# 4. Levantar servicios con Docker
+docker-compose up --build
+
+# 5. En otra terminal, configurar frontend
+cd ../../frontend
+npm install --legacy-peer-deps
+npm run dev
+```
+
+🎉 **¡Listo!** Visita http://localhost:3000 para ver la aplicación.
 
 ## 📁 Estructura del Proyecto
 
@@ -79,6 +112,12 @@ CafeShop/
 - Python 3.13+ (para desarrollo local del backend)
 
 > **Nota**: El frontend utiliza React 19 con Next.js 15, lo que puede requerir `--legacy-peer-deps` para la instalación de dependencias.
+
+### Verificación Rápida
+Puedes ejecutar el script de verificación para comprobar tu entorno:
+```bash
+./setup-check.sh
+```
 
 ### 🐳 Opción 1: Instalación con Docker (Recomendada)
 
@@ -237,6 +276,39 @@ docker-compose down
 
 # Limpiar volúmenes
 docker-compose down -v
+```
+
+## 🔧 Solución de Problemas
+
+### Problemas Comunes
+
+#### Error en npm install
+```bash
+# Si tienes problemas con dependencias de React 19
+npm install --legacy-peer-deps --force
+```
+
+#### Error de conexión a base de datos
+```bash
+# Verificar que PostgreSQL esté ejecutándose
+docker-compose ps
+
+# Revisar logs de la base de datos
+docker-compose logs db
+```
+
+#### Puerto ya en uso
+```bash
+# Para encontrar y terminar procesos en puertos específicos
+lsof -ti:3000 | xargs kill -9  # Frontend
+lsof -ti:8000 | xargs kill -9  # Backend
+```
+
+#### Problemas de permisos Docker
+```bash
+# En Linux, agregar usuario al grupo docker
+sudo usermod -aG docker $USER
+# Luego reiniciar sesión
 ```
 
 ## 📱 Características de la Interfaz
