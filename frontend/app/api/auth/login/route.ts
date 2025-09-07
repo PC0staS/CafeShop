@@ -63,7 +63,8 @@ export async function POST(req: NextRequest) {
       path: "/admin",
     });
     return res;
-  } catch (e) {
+  } catch (error) {
+    console.error("Login error:", error);
     return NextResponse.json({ error: "Error procesando la solicitud" }, { status: 500 });
   }
 }
